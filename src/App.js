@@ -1,28 +1,40 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import MainPage from './MainPage';
 import ContactPage from './ContactPage';
 import AboutPage from './AboutPage';
 import ProjectsPage from './ProjectsPage';
 import LoginForm from './login/LoginForm';
+import { useNavigate } from 'react-router-dom';
+
 
 function App() {
-  let page;
-  if (JSON.parse(localStorage.getItem('authenticated'))){
-    page = <MainPage></MainPage>
-  }else{
-    page = <LoginForm></LoginForm>
-  }
+  // const navigate = useNavigate();
+  // let page;
+  let isAuthenticated = JSON.parse(localStorage.getItem('authenticated'))
+  // console.log(isAuthenticated)
+  // let pathPage = isAuthenticated ? '/' : '/login'
+  // if (isAuthenticated){
+  //   page = <MainPage></MainPage>
+  // }else{
+  //   page = <LoginForm></LoginForm>
+  // }
   return (
     <Router>
       <Routes>
-        <Route exact path='/' element={page}></Route>
+
+      <Route exact path="/" element={!isAuthenticated ? <Navigate to="/login" /> : <MainPage />}> </Route>
+        
+        {/* <Route exact path={pathPage} element={page}></Route> */}
       {/* {!JSON.parse(localStorage.getItem('authenticated')) ? 
         <Route exact path='/login' element={<LoginForm></LoginForm>}></Route> 
             :<Route exact path='/contact' element={<ContactPage/>}></Route> } */}
-
+        <Route exact path='/login' element={<LoginForm/>}></Route>
+        <Route exact path='/' element={<MainPage/>}></Route>
         <Route exact path='/contact' element={<ContactPage></ContactPage>} ></Route>
+        {/* {navigate('/')} */}
       </Routes>
     </Router>
+    
     // <Router>
     //   <Routes>
     //     <Route exact path="/" element={<MainPage />}>

@@ -7,20 +7,14 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log((await axios.get('http://localhost:8080/hello')).data)
     try {
-      // axios.get('http://localhost:8080/hello').then(
-      //   function(response){
-      //     console.log(response.data)
-      //   }
-      // )
       console.log(username, password);
       const response = await axios.post('http://localhost:8080/api/auth/signin', { login:username, password:password });
       console.log(response)
       if (response.status === 202) {
         localStorage.setItem('token', response.data)
         localStorage.setItem('authenticated', true)
-        window.location.href = '/contact';
+        window.location.href = '/';
         console.log(response.data.token)
       } else {
         const { message } = await response.json();

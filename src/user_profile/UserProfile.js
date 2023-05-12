@@ -15,6 +15,7 @@ function UserProfile (){
     }
   }  
 
+  let encodePassword = false;
 
     useEffect(() => {
             const fetchUser = async () => {
@@ -23,10 +24,23 @@ function UserProfile (){
             setOldUser(response.data)
         };
         fetchUser();
-    }, []);
-  
+    }, [])
+    
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+    if (name == 'password'){
+
+        console.log('setting encodepassword', user.encodePassword)
+        setUser(
+              {...user,
+                password:value,
+                encodePassword: true
+              }
+            )
+        return
+    }
+    console.log(name);
+    console.log(user)
     setUser({ ...user, [name]: value });
   };
 
@@ -38,10 +52,11 @@ function UserProfile (){
 
     const handleSave = async (event) => {
         event.preventDefault();
+        console.log(user)
         await axios.put(`http://localhost:8080/subscribers/${id}`, user, axiosConfig);
         setEditMode(false)
     };
-  const { id, type, name, address, installationDate, login, encodePassword, password, phoneNumberIds, roles } = user;
+  const { id, type, name, address, installationDate, login,  password, phoneNumberIds, roles } = user;
 
   return (
     <div>
@@ -89,7 +104,7 @@ function UserProfile (){
       <div>
         <label>Password:</label>
         {editMode ? (
-          <input type="text" name="password" value={password} onChange={handleInputChange} />
+          <input type="password" name="password" value={password} onChange={handleInputChange} />
         ) : (
           <span>{password}</span>
         )}

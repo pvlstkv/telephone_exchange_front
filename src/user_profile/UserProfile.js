@@ -4,7 +4,7 @@ import axios from 'axios';
 
 function UserProfile (){
   const [user, setUser] = useState({});
-  const [newUser, setNewUser] = useState({});
+  const [oldUser, setOldUser ] = useState({})
   const [editMode, setEditMode] = useState(false);
   let jwt = localStorage.getItem('token')
   let decodedJwt = jwtDecode(jwt)
@@ -14,52 +14,32 @@ function UserProfile (){
         Authorization: "Bearer " + jwt
     }
   }  
-//   useEffect(() => {
-//     const fetchUser = async () => {
-//       const response = await fetch(`http://localhost:8080/subscribers/${id}`);
-//       const data = await response.json();
-//       setUser(data);
-//     };
-//     fetchUser();
-//   }, []);
 
 
     useEffect(() => {
             const fetchUser = async () => {
             const response = await axios.get(`http://localhost:8080/subscribers/${userId}`, axiosConfig);
             setUser(response.data);
+            setOldUser(response.data)
         };
         fetchUser();
     }, []);
   
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    // setNewUser({ ...newUser, [name]: value });
+    setUser({ ...user, [name]: value });
   };
 
 
   function handleCancelEdit(event){
     setEditMode(false)
+    setUser(oldUser)
   }
-//   const handleSave = async () => {
-//     const response = await fetch(`http://localhost:8080/subscribers/${userId}`, {
-//       method: 'PUT',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify(user),
-//     });
-//     const data = await response.json();
-//     setUser(data);
-//     setEditMode(false);
-//   };
-
 
     const handleSave = async (event) => {
         event.preventDefault();
         await axios.put(`http://localhost:8080/subscribers/${id}`, user, axiosConfig);
         setEditMode(false)
-        setUser(newUser)
     };
   const { id, type, name, address, installationDate, login, encodePassword, password, phoneNumberIds, roles } = user;
 

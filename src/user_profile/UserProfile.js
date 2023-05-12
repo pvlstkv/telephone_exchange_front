@@ -4,6 +4,7 @@ import axios from 'axios';
 
 function UserProfile (){
   const [user, setUser] = useState({});
+  const [newUser, setNewUser] = useState({});
   const [editMode, setEditMode] = useState(false);
   let jwt = localStorage.getItem('token')
   let decodedJwt = jwtDecode(jwt)
@@ -33,7 +34,7 @@ function UserProfile (){
   
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setUser({ ...user, [name]: value });
+    // setNewUser({ ...newUser, [name]: value });
   };
 
 
@@ -58,6 +59,7 @@ function UserProfile (){
         event.preventDefault();
         await axios.put(`http://localhost:8080/subscribers/${id}`, user, axiosConfig);
         setEditMode(false)
+        setUser(newUser)
     };
   const { id, type, name, address, installationDate, login, encodePassword, password, phoneNumberIds, roles } = user;
 

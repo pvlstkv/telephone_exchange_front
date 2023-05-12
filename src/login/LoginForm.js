@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import MainPage from '../MainPage';
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -18,8 +18,9 @@ const LoginForm = () => {
       const response = await axios.post('http://localhost:8080/api/auth/signin', { login:username, password:password });
       console.log(response)
       if (response.status === 202) {
-        localStorage.setItem('token', response.data.token);
-        // window.location.href = '/';
+        localStorage.setItem('token', response.data)
+        localStorage.setItem('authenticated', true)
+        window.location.href = '/contact';
         console.log(response.data.token)
       } else {
         const { message } = await response.json();

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
+import Select from 'react-select';
 
 function UserProfile (props){
   const [user, setUser] = useState({});
@@ -39,7 +40,6 @@ function UserProfile (props){
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     if (name === 'password'){
-
         console.log('setting encodepassword', user.encodePassword)
         setUser(
               {...user,
@@ -57,6 +57,7 @@ function UserProfile (props){
       });
       return;
     }
+
     console.log(name);
     console.log(user)
     setUser({ ...user, [name]: value });
@@ -74,14 +75,21 @@ function UserProfile (props){
         await axios.put(`http://localhost:8080/subscribers/${id}`, user, axiosConfig);
         setEditMode(false)
     };
+    const { id, type, name, address, installationDate, login,  password, phoneNumberIds, roles } = user;
 
+    const [userRole, setUserRole] = useState(roles)
   const handleSelectChange = (event) => {
-    const selectedOptions = event.target.selectedOptions;
-    const selectedIds = Array.from(selectedOptions).map((option) => console.log(option));
-    // setUser({ ...user, phoneNumberIds: selectedIds });
+    const { name, value } = event.target;
+
+    console.log(name, value)
+    setUserRole(value);
+    setUser({
+      ...user,
+      roles: [value]
+    })
   };
-  
-  const { id, type, name, address, installationDate, login,  password, phoneNumberIds, roles } = user;
+
+
 
   return (
     <div>
@@ -92,10 +100,24 @@ function UserProfile (props){
       </div>
       <div>
         <label>Type:</label>
-        {editMode ? (
+        {/* {editMode ? (
           <input type="text" name="type" value={type} onChange={handleInputChange} />
         ) : (
           <span>{type}</span>
+        )} */}
+        {editMode ? (
+            <select
+            name="type"
+            value={userRole}
+            onChange={handleSelectChange}
+            style={{ marginBottom: "1rem" }}
+            >
+            <option value="USER">User</option>
+            <option value="ADMIN">Admin</option>
+            </select>
+
+        ) : (
+          <span>{roles}</span>
         )}
       </div>
       <div>
@@ -127,16 +149,18 @@ function UserProfile (props){
         <span>{login}</span>
       </div>
       <div>
+      {editMode ? (<span>
         <label>Password:</label>
-        {editMode ? (
-          <input type="password" name="password" value={password} onChange={handleInputChange} />
+            <input type="password" name="password" value={password} onChange={handleInputChange} />
+          </span>
         ) : (
           <span>{password}</span>
         )}
       </div>
       <div>
-        <label>Phone Number IDs:</label>
-        {editMode ? (
+        <label>Phone Numbers:</label>
+        {
+        // editMode ? (
           // <input type="text" name="phoneNumberIds" value={phoneNumberIds} onChange={handleInputChange} />
         //   <select
         //   name="phoneNumberIds"
@@ -150,28 +174,37 @@ function UserProfile (props){
         //     </option>
         //   ))}
         // </select>
-            <select multiple name="phoneNumberIds"  value={phoneNumbers} onChange={handleSelectChange}
-            // style={{width: "300px", backgroundColor:'green', color: 'black'}}
-            >
-              {phoneNumbers.map((phoneNumber, idx) => (
-                <option key={idx} value={phoneNumber} 
-                // style={{width: "300px", backgroundColor:'blue', color: 'black'}}
-                >{phoneNumber.phone}</option>
-            ))}
-          </select>
-
-        ) : (
+      //   <select multiple name="phoneNumberIds"  value={phoneNumbers} onChange={handleSelectChange}
+      //   // style={{width: "300px", backgroundColor:'green', color: 'black'}}
+      //   >
+      //     {phoneNumbers.map((phoneNumber, idx) => (
+      //       <option key={idx} value={phoneNumber} 
+      //       // style={{width: "300px", backgroundColor:'blue', color: 'black'}}
+      //       >{phoneNumber.phone}</option>
+      //   ))}
+      // </select>
+// {}        ) : (
           <span>{<ul>
             {phoneNumbers && phoneNumbers.map((item, idx) => (
               <li key={idx}>{item.phone}</li>
             ))}
           </ul>}</span>
-         )}   
+        //  )
+      }   
       </div>
       <div>
-        <label>Roles:</label>
+        <label>Role:</label>
         {editMode ? (
-          <input type="text" name="roles" value={roles} onChange={handleInputChange} />
+            <select
+            name="role"
+            value={userRole}
+            onChange={handleSelectChange}
+            style={{ marginBottom: "1rem" }}
+            >
+            <option value="USER">User</option>
+            <option value="ADMIN">Admin</option>
+            </select>
+
         ) : (
           <span>{roles}</span>
         )}

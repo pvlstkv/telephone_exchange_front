@@ -5,6 +5,7 @@ import AboutPage from './AboutPage';
 import ProjectsPage from './ProjectsPage';
 import LoginForm from './login/LoginForm';
 import { useNavigate } from 'react-router-dom';
+import UserProfile from './user_profile/UserProfile';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
         <Route exact path='/login' element={<LoginForm/>}></Route>
         <Route exact path='/' element={<MainPage/>}></Route>
         <Route exact path='/contact' element={<ContactPage></ContactPage>} ></Route>
+        <Route exact path='/profile' element={<UserProfile></UserProfile>}></Route>
         {/* {navigate('/')} */}
       </Routes>
     </Router>

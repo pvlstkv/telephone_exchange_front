@@ -26,6 +26,9 @@ function MainPage() {
           <li>
             <Link to="/projects">My Projects</Link>
           </li>
+          <li>
+            <Link to="/profile">My profile</Link>
+          </li>
         </ul>
       </nav>
     </div>

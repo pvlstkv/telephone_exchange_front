@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import MainPage from '../MainPage';
+import jwtDecode from 'jwt-decode';
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -10,9 +11,9 @@ const LoginForm = () => {
     try {
       console.log(username, password);
       const response = await axios.post('http://localhost:8080/api/auth/signin', { login:username, password:password });
-      console.log(response)
+      console.log('login response is ', response)
       if (response.status === 202) {
-        localStorage.setItem('token', response.data)
+        localStorage.setItem('token', response.data.value)
         localStorage.setItem('authenticated', true)
         window.location.href = '/';
         console.log(response.data.token)

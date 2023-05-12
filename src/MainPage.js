@@ -1,10 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 function MainPage() {
 
   const navigate = useNavigate();
   let isAuthenticated = JSON.parse(localStorage.getItem('authenticated'))
+  console.log(jwtDecode(localStorage.getItem('token')))
+
   if (!isAuthenticated){
       navigate('/login')
       return

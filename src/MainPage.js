@@ -40,6 +40,12 @@ function MainPage() {
           <li>
             <Link to="/cities">Таблица городов</Link>
           </li>
+          <li>
+            <Link to="/districts">Таблица районов</Link>
+          </li>
+          <li>
+            <Link to="/telephone-numbers">Таблица телефонных номеров</Link>
+          </li>
         </ul>
       </nav>
       <button onClick={handleLogout}>Logout</button>

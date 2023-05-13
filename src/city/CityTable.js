@@ -12,29 +12,28 @@ function CityTable() {
     }
   }  
 
-  const [districts, setDistricts] = useState([])
   useEffect(() => {
     const fetchCities = async ()=>{
       // const response = await 
-      axios.get(`http://localhost:8080/cities`, axiosConfig)
+      axios.get(`http://localhost:8080/cities/all-extended`, axiosConfig)
       .then(response=>{
         setCities(response.data)
         console.log('cities', response.data)
 
-        response.data.forEach((city) => {
-          if (city.districtIds.length > 0){
-            const districtIds = city.districtIds.join(',');
-            console.log('district ids is ', districtIds)
-            // const districtResponse = await
-             axios.get(`http://localhost:8080/districts/${districtIds}`, axiosConfig)
-            .then(response2=>{
-              setDistricts([...districts, response2.data])
-              console.log('districts is', response2.data)
-            });
-            console.log()
-            //console.log('districts is', districts)
-        }
-        });
+        // response.data.forEach((city) => {
+        //   if (city.districtIds.length > 0){
+        //     const districtIds = city.districtIds.join(',');
+        //     console.log('district ids is ', districtIds)
+        //     // const districtResponse = await
+        //      axios.get(`http://localhost:8080/districts/${districtIds}`, axiosConfig)
+        //     .then(response2=>{
+        //       setDistricts([...districts, response2.data])
+        //       console.log('districts is', response2.data)
+        //     });
+        //     console.log()
+        //     //console.log('districts is', districts)
+        // }
+        // });
       })
 
       
@@ -78,8 +77,8 @@ function CityTable() {
         <thead>
           <tr>
             <th>№</th>
-            <th>Name</th>
-            <th>Districts</th>
+            <th>Названия города</th>
+            <th>Районы города</th>
           </tr>
         </thead>
         <tbody>
@@ -92,15 +91,10 @@ function CityTable() {
             >
               <td>{ind}</td>
               <td>{city.name}</td>
-              <td>
-                {
-                  districts.map((dist, index)=>{
-                    if(index === ind){
-                      return districts.map(it=>it.name).join(', ')
-                    }
-                  })
-                }
-                </td>
+             
+              <td>{city.districts.length > 0 ? city.districts.map(district => district.name).join(', '): "-"}</td>
+
+               
             </tr>
           ))}
         </tbody>

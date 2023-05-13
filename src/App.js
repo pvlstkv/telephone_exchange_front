@@ -7,7 +7,8 @@ import LoginForm from './login/LoginForm';
 import { useNavigate } from 'react-router-dom';
 import UserProfile from './user_profile/UserProfile';
 import CityTable from './city/CityTable';
-
+import DistrictTable from './district/DistrictTable';
+import TelephoneNumberTable from './TelephoneNumber/TelephoneNumberTable';
 
 function App() {
   // const navigate = useNavigate();
@@ -35,6 +36,9 @@ function App() {
         <Route exact path='/contact' element={<ContactPage></ContactPage>} ></Route>
         <Route exact path='/profile' element={<UserProfile></UserProfile>}></Route>
         <Route exact path='/cities' element={<CityTable></CityTable>}></Route>
+        <Route exact path='/districts' element={<DistrictTable></DistrictTable>}></Route>
+        <Route exact path='/telephone-numbers' element={<TelephoneNumberTable></TelephoneNumberTable>}></Route>
+
         {/* {navigate('/')} */}
       </Routes>
     </Router>

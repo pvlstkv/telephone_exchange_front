@@ -5,6 +5,7 @@ import jwtDecode from 'jwt-decode';
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,13 +18,20 @@ const LoginForm = () => {
         localStorage.setItem('authenticated', true)
         window.location.href = '/';
         console.log(response.data.token)
-      } else {
-        const { message } = await response.json();
-        alert(message);
+      } else if(response.status === 401){
+        alert()
+      }else {
+        alert(response.status);
       }
     
     } catch (err) {
-      console.error(err);
+      if (err.code == 'ERR_NETWORK'){
+        setError('ошибка подключения к серверу')
+        alert('net')
+      }else  if(err.code == 'ERR_BAD_REQUEST'){
+        setError('ошибка авторизации, проверьте логин и пароль')
+      }
+      console.error('error happend', err);
     }
   };
 
@@ -38,6 +46,7 @@ const LoginForm = () => {
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
       </label>
       <button type="submit">Submit</button>
+      <label>{error.length > 0 ? <span>{error}</span>: <span/> }</label>
     </form>
   );
 };

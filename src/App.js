@@ -6,6 +6,7 @@ import ProjectsPage from './ProjectsPage';
 import LoginForm from './login/LoginForm';
 import { useNavigate } from 'react-router-dom';
 import UserProfile from './user_profile/UserProfile';
+import CityTable from './city/CityTable';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Route exact path='/' element={<MainPage/>}></Route>
         <Route exact path='/contact' element={<ContactPage></ContactPage>} ></Route>
         <Route exact path='/profile' element={<UserProfile></UserProfile>}></Route>
+        <Route exact path='/cities' element={<CityTable></CityTable>}></Route>
         {/* {navigate('/')} */}
       </Routes>
     </Router>

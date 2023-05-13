@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import MainPage from '../MainPage';
-import jwtDecode from 'jwt-decode';
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

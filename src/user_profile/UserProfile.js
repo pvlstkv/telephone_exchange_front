@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
-import Select from 'react-select';
 
-function UserProfile (props){
+function UserProfile (){
   const [user, setUser] = useState({});
   const [oldUser, setOldUser ] = useState({})
   const [editMode, setEditMode] = useState(false);
@@ -16,13 +15,13 @@ function UserProfile (props){
     }
   }  
   useEffect(() => {
-          const fetchUser = async () => {
-          const response = await axios.get(`http://localhost:8080/subscribers/${userId}`, axiosConfig);
-          setUser(response.data);
-          setOldUser(response.data)
-      };
-      fetchUser();
-  }, [])
+            const fetchUser = async () => {
+            const response = await axios.get(`http://localhost:8080/subscribers/${userId}`, axiosConfig);
+            setUser(response.data);
+            setOldUser(response.data)
+        };
+        fetchUser();
+    }, [])
 
   const [phoneNumbers, setPhoneNumbers] = useState([])
   useEffect(()=>{
@@ -77,18 +76,29 @@ function UserProfile (props){
     };
     const { id, type, name, address, installationDate, login,  password, phoneNumberIds, roles } = user;
 
-    const [userRole, setUserRole] = useState(roles)
+  const [userRole, setUserRole] = useState(roles)
+  const [userType, setUserType] = useState(type)
+  console.log(type)
+
   const handleSelectChange = (event) => {
     const { name, value } = event.target;
-
     console.log(name, value)
-    setUserRole(value);
-    setUser({
-      ...user,
-      roles: [value]
-    })
+    if (name === 'role'){
+      setUserRole(value);
+      setUser({
+        ...user,
+        roles: [value]
+      })
+    }
+    if (name === 'type'){
+      setUserType(value)
+      setUser({
+        ...user,
+        type: value
+      })
+    }
+   
   };
-
 
 
   return (
@@ -100,24 +110,19 @@ function UserProfile (props){
       </div>
       <div>
         <label>Type:</label>
-        {/* {editMode ? (
-          <input type="text" name="type" value={type} onChange={handleInputChange} />
-        ) : (
-          <span>{type}</span>
-        )} */}
         {editMode ? (
             <select
             name="type"
-            value={userRole}
+            value={userType}
             onChange={handleSelectChange}
             style={{ marginBottom: "1rem" }}
             >
-            <option value="USER">User</option>
-            <option value="ADMIN">Admin</option>
+            <option value="PERSON">PERSON</option>
+            <option value="COMPANY">COMPANY</option>
             </select>
 
         ) : (
-          <span>{roles}</span>
+          <span>{type}</span>
         )}
       </div>
       <div>

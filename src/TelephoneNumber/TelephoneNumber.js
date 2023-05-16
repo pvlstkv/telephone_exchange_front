@@ -1,14 +1,20 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const TelephoneNumber = ({ index, telephoneNumber }) => {
+  let id = telephoneNumber.id;
   return (
-    <div>
+    <>
         <td>{index}</td>
-      <td>Номер телефона: {telephoneNumber.phone}</td>
-      <td>Имя подписчика: {telephoneNumber.subscriber.name}</td>
-      <td>Адрес подписчика: {telephoneNumber.subscriber.address}</td>
-      <td>Номер телефонной станции: {telephoneNumber.exchange.number}</td>
-    </div>
+      <td> {telephoneNumber.phone}</td>
+      <td> {telephoneNumber.subscriber.name}</td>
+      <td> {telephoneNumber.subscriber.address}</td>
+      <td> {telephoneNumber.exchange.number}</td>
+      <td><Link to={{
+        pathname:`/telephone-numbers/editing/${id}`, 
+        // telephoneNumber:telephoneNumber
+        }}>Редактировать</Link></td>
+    </>
   );
 };
 

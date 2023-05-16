@@ -5,10 +5,13 @@ import AboutPage from './AboutPage';
 import ProjectsPage from './ProjectsPage';
 import LoginForm from './login/LoginForm';
 import { useNavigate } from 'react-router-dom';
-import UserProfile from './user_profile/UserProfile';
+import SubscriberProfile from './user_profile/SubscriberProfile';
 import CityTable from './city/CityTable';
 import DistrictTable from './district/DistrictTable';
 import TelephoneNumberTable from './TelephoneNumber/TelephoneNumberTable';
+import TelephoneNumberEdit from './TelephoneNumber/TelephoneNumberEdit';
+import TelephoneNumberCreate from './TelephoneNumber/TelephoneNumberCreate';
+import SubscriberTable from './user_profile/SubscriberTable';
 
 function App() {
   // const navigate = useNavigate();
@@ -34,11 +37,14 @@ function App() {
         <Route exact path='/login' element={<LoginForm/>}></Route>
         <Route exact path='/' element={<MainPage/>}></Route>
         <Route exact path='/contact' element={<ContactPage></ContactPage>} ></Route>
-        <Route exact path='/profile' element={<UserProfile></UserProfile>}></Route>
+        <Route exact path='/profile' element={<SubscriberProfile></SubscriberProfile>}></Route>
         <Route exact path='/cities' element={<CityTable></CityTable>}></Route>
         <Route exact path='/districts' element={<DistrictTable></DistrictTable>}></Route>
         <Route exact path='/telephone-numbers' element={<TelephoneNumberTable></TelephoneNumberTable>}></Route>
-
+        <Route exact path='telephone-numbers/editing/:id' element={<TelephoneNumberEdit></TelephoneNumberEdit>}></Route>
+        <Route exact path='/telephone-numbers/creating' element={<TelephoneNumberCreate></TelephoneNumberCreate>}></Route>
+        <Route exact path='/subscribers' element={<SubscriberTable/>}/>
+        <Route exact path='/subscribers/editing/:id' element={<SubscriberProfile/>}/>
         {/* {navigate('/')} */}
       </Routes>
     </Router>

@@ -20,22 +20,17 @@ function MainPage() {
     localStorage.removeItem('authenticated')
     navigate('/login')
   };
+  let jwt = localStorage.getItem('token')
+  let decodedJwt = jwtDecode(jwt)
+  let userId = decodedJwt.id
+  console.log('userId from main page is', userId)
   return (
     <div>
-      <h1>Welcome to my website!</h1>
+      <h1>Добро пожаловать</h1>
       <nav>
         <ul>
           <li>
-            <Link to="/contact">Contact</Link>
-          </li>
-          <li>
-            <Link to="/about">About Me</Link>
-          </li>
-          <li>
-            <Link to="/projects">My Projects</Link>
-          </li>
-          <li>
-            <Link to="/profile">Мой профиль</Link>
+            <Link to = "/profile" state={{userId:userId}}>Мой профиль</Link>
           </li>
           <li>
             <Link to="/cities">Таблица городов</Link>
@@ -45,6 +40,9 @@ function MainPage() {
           </li>
           <li>
             <Link to="/telephone-numbers">Таблица телефонных номеров</Link>
+          </li>
+          <li>
+            <Link to="/subscribers"> Таблица подписчиков</Link>
           </li>
         </ul>
       </nav>

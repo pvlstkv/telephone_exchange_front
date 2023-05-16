@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import TelephoneNumber from './TelephoneNumber';
 import { Link } from 'react-router-dom';
+import Subscriber from './Subscriber';
 
-function TelephoneNumberTable() {
-  const [phoneNumbers, setPhoneNumbers] = useState([]);
+function SubscriberTable() {
+  const [subscribers, setSubscribers] = useState([]);
   const [highlightedRow, setHighlightedRow] = useState([]);
   let jwt = localStorage.getItem('token')
   let axiosConfig = {
@@ -14,14 +14,14 @@ function TelephoneNumberTable() {
   }  
 
   useEffect(() => {
-    const fetchPhoneNumbers = async ()=>{
-      axios.get(`http://localhost:8080/phone-numbers/all-extended`, axiosConfig)
+    const fetchSubscribers = async ()=>{
+      axios.get(`http://localhost:8080/subscribers/all-extended`, axiosConfig)
       .then(response=>{
-        setPhoneNumbers(response.data)
-        console.log('cities', response.data)
+        setSubscribers(response.data)
+        console.log('subscribers', response.data)
       })
         }
-    fetchPhoneNumbers();
+        fetchSubscribers();
   }, []);
 
   const handleRowMouseEnter = (index) => {
@@ -34,27 +34,31 @@ function TelephoneNumberTable() {
 
   return (
     <div>
-      <h1>"Таблица номера телефонов"</h1>
-      <p>{`${phoneNumbers.length} найдено записей`}</p>
+      <h1>"Таблица подписчиков"</h1>
+      <p>{`${subscribers.length} найдено записей`}</p>
       <table>
         <thead>
           <tr>
             <th>№</th>
-            <th>Номер телефона:</th>
+            <th>Тип подписчика:</th>
             <th>Имя подписчика:</th>
             <th>Адрес подписчика: </th>
-            <th>Номер телефонной станции: </th>
+            <th>Логин: </th>
+            <th>Роль в системе: </th>
+            <th>Номера телефонов: </th>
+            <th>Дата установки: </th>
+
           </tr>
         </thead>
         <tbody>
-          {phoneNumbers.map((telephoneNumber, ind) => (
+          {subscribers.map((subscriber, ind) => (
             <tr
               key={ind}
               onMouseEnter={() => handleRowMouseEnter(ind)}
               onMouseLeave={handleRowMouseLeave}
               style={{ backgroundColor: highlightedRow === ind ? 'yellow' : ind % 2 === 0 ? 'white' : 'lightgray' }}
             >
-              {<TelephoneNumber index={ind} telephoneNumber={telephoneNumber}></TelephoneNumber>}
+              {<Subscriber index={ind} subscriber={subscriber}/>}
                
             </tr>
           ))}
@@ -65,4 +69,4 @@ function TelephoneNumberTable() {
   );
 }
 
-export default TelephoneNumberTable;
+export default SubscriberTable;

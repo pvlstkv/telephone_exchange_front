@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
-function UserProfile (){
+function SubscriberProfile (){
   const [user, setUser] = useState({});
   const [oldUser, setOldUser ] = useState({})
   const [editMode, setEditMode] = useState(false);
   let jwt = localStorage.getItem('token')
-  let decodedJwt = jwtDecode(jwt)
-  let userId = decodedJwt.id
+  
+  const location = useLocation();
+  const {userId} = location.state
+  console.log('userId is ', userId)
+
   let axiosConfig = {
     headers:{
         Authorization: "Bearer " + jwt
@@ -226,4 +230,4 @@ function UserProfile (){
   );
 };
 
-export default UserProfile;
+export default SubscriberProfile;

@@ -30,7 +30,7 @@ function MainPage() {
       <nav>
         <ul>
           <li>
-            <Link to = "/profile" state={{userId:userId}}>Мой профиль</Link>
+            <Link to = "/profile" state={{userId:userId, mode:'edit'}}>Мой профиль</Link>
           </li>
           <li>
             <Link to="/cities">Таблица городов</Link>

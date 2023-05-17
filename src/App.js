@@ -40,11 +40,14 @@ function App() {
         <Route exact path='/profile' element={<SubscriberProfile></SubscriberProfile>}></Route>
         <Route exact path='/cities' element={<CityTable></CityTable>}></Route>
         <Route exact path='/districts' element={<DistrictTable></DistrictTable>}></Route>
+
         <Route exact path='/telephone-numbers' element={<TelephoneNumberTable></TelephoneNumberTable>}></Route>
-        <Route exact path='telephone-numbers/editing/:id' element={<TelephoneNumberEdit></TelephoneNumberEdit>}></Route>
+        <Route exact path='/telephone-numbers/editing/:id' element={<TelephoneNumberEdit></TelephoneNumberEdit>}></Route>
         <Route exact path='/telephone-numbers/creating' element={<TelephoneNumberCreate></TelephoneNumberCreate>}></Route>
+        
         <Route exact path='/subscribers' element={<SubscriberTable/>}/>
         <Route exact path='/subscribers/editing/:id' element={<SubscriberProfile/>}/>
+        <Route exact path='/subscribers/creating' element={<SubscriberProfile/>}/>
         {/* {navigate('/')} */}
       </Routes>
     </Router>

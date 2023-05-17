@@ -7,8 +7,8 @@ const TelephoneNumber = ({ index, telephoneNumber }) => {
     <>
         <td>{index}</td>
       <td> {telephoneNumber.phone}</td>
-      <td> {telephoneNumber.subscriber.name}</td>
-      <td> {telephoneNumber.subscriber.address}</td>
+      <td> {telephoneNumber.subscriber && telephoneNumber.subscriber.name}</td>
+      <td> {telephoneNumber.subscriber && telephoneNumber.subscriber.address}</td>
       <td> {telephoneNumber.exchange.number}</td>
       <td><Link to={{
         pathname:`/telephone-numbers/editing/${id}`, 

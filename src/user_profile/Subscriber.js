@@ -15,7 +15,7 @@ const Subscriber  = ({index, subscriber})  =>{
         <td>{subscriber.installationDate}</td>
         <td><Link
                 to={`/subscribers/editing/${subscriber.id}`} 
-                state={{userId:subscriber.id}}
+                state={{userId:subscriber.id, mode:'edit'}}
             >
             Редактировать
             </Link>

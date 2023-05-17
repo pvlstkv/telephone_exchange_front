@@ -40,9 +40,9 @@ function TelephoneNumberCreate() {
 
     }, []);
   
-    const handleSubscriberChange = (selectedOption) => {
-      setSelectedSubscriber(selectedOption);
-    };
+    // const handleSubscriberChange = (selectedOption) => {
+    //   setSelectedSubscriber(selectedOption);
+    // };
   
     const handleExchangeChange = (selectedOption) => {
       setSelectedExchange(selectedOption);
@@ -52,7 +52,7 @@ function TelephoneNumberCreate() {
       event.preventDefault();
       const data = {
         phone: phone,
-        subscriberId: selectedSubscriber.value,
+        // subscriberId: selectedSubscriber.value,
         exchangeId: selectedExchange.value
       };
       axios.post('http://localhost:8080/phone-numbers', data, axiosConfig)
@@ -73,10 +73,10 @@ function TelephoneNumberCreate() {
           <input type="text" value={phone} onChange={(event) => setPhone(event.target.value)} />
         </label>
         <br />
-        <label>
+        {/* <label>
           Subscriber:
           <Select options={subscriberOptions} value={selectedSubscriber} onChange={handleSubscriberChange} />
-        </label>
+        </label> */}
         <br />
         <label>
           Exchange:

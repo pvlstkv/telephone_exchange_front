@@ -64,7 +64,10 @@ function SubscriberTable() {
           ))}
         </tbody>
       </table>
-      <Link to='/telephone-numbers/creating'> Создать нового подписчика</Link>
+      <Link 
+          to='/subscribers/creating'
+          state={{mode:'create'}}
+      > Создать нового подписчика</Link>
     </div>
   );
 }

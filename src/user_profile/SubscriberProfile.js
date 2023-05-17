@@ -8,10 +8,13 @@ function SubscriberProfile (){
   const [user, setUser] = useState({});
   const [oldUser, setOldUser ] = useState({})
   const [editMode, setEditMode] = useState(false);
+  const [message, setMessage] = useState('')
   let jwt = localStorage.getItem('token')
 
   const location = useLocation();
   const {userId} = location.state
+  const {mode} = location.state
+  console.log('mode is ', mode)
   console.log('userId is ', userId)
 
   const [oldSelectedNumbers, setOldSelectedNUmbers] = useState()
@@ -22,30 +25,50 @@ function SubscriberProfile (){
         Authorization: "Bearer " + jwt
     }
   }  
+
+  
   useEffect(() => {
             const fetchUser = async () => {
-            axios.get(`http://localhost:8080/subscribers/${userId}`, axiosConfig)
-            .then(response=>{
-              setUser(response.data);
-              setOldUser(response.data)
+              axios.get(`http://localhost:8080/subscribers/${userId}`, axiosConfig)
+              .then(response=>{
+                setUser(response.data);
+                setOldUser(response.data)
 
-              const fetchPhoneNumbers= async ()=>{
-                  let ids = response.data.phoneNumberIds.join(',')
-                  axios.get(`http://localhost:8080/phone-numbers/${ids}`, axiosConfig)
-                  .then(response=>{
-                      const selected = response.data.map(item=>({
-                        value:item.id,
-                        label:item.phone
-                      }))
-                      setSelectedNumbers(selected)
-                      setOldSelectedNUmbers(selected)
-                      console.log('selected', selected)
-                  })                  
-                }
-              fetchPhoneNumbers()
-            })
-        };
-        fetchUser();
+                const fetchPhoneNumbers= async ()=>{
+                    let ids = response.data.phoneNumberIds.join(',')
+                    console.log('phoneNumberIds are', ids)
+                    if (ids.length>0){
+                      axios.get(`http://localhost:8080/phone-numbers/${ids}`, axiosConfig)
+                      .then(response=>{
+                          // console.log('all telephones are', response.data)
+                          const selected = response.data.map(item=>({
+                            value:item.id,
+                            label:item.phone
+                          }))
+                          setSelectedNumbers(selected)
+                          setOldSelectedNUmbers(selected)
+                          console.log('selected', selected)
+                      })      
+                    }            
+                  }
+                fetchPhoneNumbers()
+              })
+            };
+        console.log('in use effect')
+        if (mode === 'edit'){
+          fetchUser();
+        } else if(mode === 'create'){
+          setUser({
+            ...user,
+            id:null,
+            phoneNumberIds:[],
+            type:"PERSON",
+            roles:["USER"]
+          })
+          console.log('in crating mode')
+          setEditMode(true)
+          handleEditMode();
+        }
     }, [])
 
     
@@ -87,10 +110,23 @@ function SubscriberProfile (){
   const handleSave = async (event) => {
         event.preventDefault();
         console.log('user is', user)
-        await axios.put(`http://localhost:8080/subscribers/${id}`, user, axiosConfig);
-        setEditMode(false)
+        if (mode === 'edit'){
+          await axios.put(`http://localhost:8080/subscribers/${id}`, user, axiosConfig);  
+          setEditMode(false)
+        }else{
+          if(user.login === '' && user.password === ''){
+            alert('нельзя создать пользователя, не указав его логин и пароль')
+            return
+          }
+          axios.post('http://localhost:8080/subscribers', user, axiosConfig)
+          .then(response=>{
+            console.log(response)
+            setUser(null)
+            setMessage('подписчик успешно создан')
+          })
+        }
  };
-    const { id, type, name, address, installationDate, login,  password, phoneNumberIds, roles } = user;
+ const { id, type, name, address, installationDate, login,  password,  roles } = user;
 
   const [userRole, setUserRole] = useState(roles)
   const [userType, setUserType] = useState(type)
@@ -120,7 +156,7 @@ function SubscriberProfile (){
   const handleEditMode= ()=> {
     axios.get('http://localhost:8080/phone-numbers', axiosConfig)
     .then(response=>{
-      const options = response.data.map(item=>({
+      const options = response.data.filter(item=>item.subscriberId === null).map(item=>({
         
           value:item.id,
           label:item.phone
@@ -134,19 +170,20 @@ function SubscriberProfile (){
 
   return (
     <div>
-      <h1>Профиль подписчика</h1>
-      <div>
+     {mode ==='edit' && <h1>Профиль подписчика</h1> }
+     {mode === 'create' && <h1> Создание нового профиля</h1>}
+      {mode === 'edit' && <div>
         <label>ID:</label>
         <span>{id}</span>
-      </div>
+      </div>}
       <div>
         <label>Тип:</label>
         {editMode ? (
             <select
-            name="type"
-            value={userType}
-            onChange={handleSelectChange}
-            style={{ marginBottom: "1rem" }}
+              name="type"
+              value={userType}
+              onChange={handleSelectChange}
+              style={{ marginBottom: "1rem" }}
             >
             <option value="PERSON">PERSON</option>
             <option value="COMPANY">COMPANY</option>
@@ -182,7 +219,8 @@ function SubscriberProfile (){
       </div>
       <div>
         <label>Логин:</label>
-        <span>{login}</span>
+        {mode === 'create'? 
+          <input type="text" name="login" onChange={handleInputChange} />: <span>{login}</span> }
       </div>
       <div>
       {editMode ? (<span>
@@ -259,8 +297,9 @@ function SubscriberProfile (){
       </div>
       {editMode ? (
         <div>
-            <button onClick={handleCancelEdit}>Cancel edit</button>
+           {mode ==='edit' && <button onClick={handleCancelEdit}>Cancel edit</button>}
             <button onClick={handleSave}>Save</button>
+            <div>{message.length > 0 && message}</div>
         </div>
       ) : (
         <button onClick={handleEditMode}>Edit</button>

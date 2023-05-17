@@ -44,6 +44,9 @@ function MainPage() {
           <li>
             <Link to="/subscribers"> Таблица подписчиков</Link>
           </li>
+          <li>
+            <Link to="/telephone-exchanges"> Таблица телефонных станций</Link>
+          </li>
         </ul>
       </nav>
       <button onClick={handleLogout}>Logout</button>

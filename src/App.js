@@ -12,6 +12,7 @@ import TelephoneNumberTable from './TelephoneNumber/TelephoneNumberTable';
 import TelephoneNumberEdit from './TelephoneNumber/TelephoneNumberEdit';
 import TelephoneNumberCreate from './TelephoneNumber/TelephoneNumberCreate';
 import SubscriberTable from './user_profile/SubscriberTable';
+import TelephoneExchangeTable from './TelephoneExchange/TelephoneExchangeTable';
 
 function App() {
   // const navigate = useNavigate();
@@ -48,6 +49,8 @@ function App() {
         <Route exact path='/subscribers' element={<SubscriberTable/>}/>
         <Route exact path='/subscribers/editing/:id' element={<SubscriberProfile/>}/>
         <Route exact path='/subscribers/creating' element={<SubscriberProfile/>}/>
+
+        <Route exact path='/telephone-exchanges' element={<TelephoneExchangeTable/>}/>
         {/* {navigate('/')} */}
       </Routes>
     </Router>

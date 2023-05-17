@@ -14,6 +14,9 @@ function SubscriberProfile (){
   const {userId} = location.state
   console.log('userId is ', userId)
 
+  const [oldSelectedNumbers, setOldSelectedNUmbers] = useState()
+  const[selectedNumbers, setSelectedNumbers] = useState([])
+
   let axiosConfig = {
     headers:{
         Authorization: "Bearer " + jwt
@@ -30,7 +33,6 @@ function SubscriberProfile (){
                   let ids = response.data.phoneNumberIds.join(',')
                   axios.get(`http://localhost:8080/phone-numbers/${ids}`, axiosConfig)
                   .then(response=>{
-                      setPhoneNumbers(response.data)
                       const selected = response.data.map(item=>({
                         value:item.id,
                         label:item.phone
@@ -46,14 +48,7 @@ function SubscriberProfile (){
         fetchUser();
     }, [])
 
-  const [phoneNumbers, setPhoneNumbers] = useState([])
-  const [oldSelectedNumbers, setOldSelectedNUmbers] = useState()
-  const[selectedNumbers, setSelectedNumbers] = useState([])
-
-  // useEffect(()=>{
     
-  // }, [user])
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     if (name === 'password'){
@@ -70,12 +65,15 @@ function SubscriberProfile (){
     console.log(user)
     setUser({ ...user, [name]: value });
   };
+
   const handleNumberChange=(selectedNumber)=>{
       console.log('selectedNUmber is', selectedNumber)
       setSelectedNumbers(selectedNumber)
+      const numberIds = selectedNumber.map(item=>item.value)
+      console.log('selectedNUmberIds are', numberIds)
       setUser({
         ...user,
-        phoneNumberIds:selectedNumbers.map(item=>item.value)
+        phoneNumberIds: numberIds
       })
       console.log('user phones are', user.phoneNumberIds)
   }
@@ -86,17 +84,16 @@ function SubscriberProfile (){
     setSelectedNumbers(oldSelectedNumbers)
   }
 
-    const handleSave = async (event) => {
+  const handleSave = async (event) => {
         event.preventDefault();
-        console.log(user)
+        console.log('user is', user)
         await axios.put(`http://localhost:8080/subscribers/${id}`, user, axiosConfig);
         setEditMode(false)
-    };
+ };
     const { id, type, name, address, installationDate, login,  password, phoneNumberIds, roles } = user;
 
   const [userRole, setUserRole] = useState(roles)
   const [userType, setUserType] = useState(type)
-  console.log(type)
 
   const handleSelectChange = (event) => {
     const { name, value } = event.target;
@@ -137,13 +134,13 @@ function SubscriberProfile (){
 
   return (
     <div>
-      <h1>User Profile</h1>
+      <h1>Профиль подписчика</h1>
       <div>
         <label>ID:</label>
         <span>{id}</span>
       </div>
       <div>
-        <label>Type:</label>
+        <label>Тип:</label>
         {editMode ? (
             <select
             name="type"
@@ -160,7 +157,7 @@ function SubscriberProfile (){
         )}
       </div>
       <div>
-        <label>Name:</label>
+        <label>Имя:</label>
         {editMode ? (
           <input type="text" name="name" value={name} onChange={handleInputChange} />
         ) : (
@@ -168,7 +165,7 @@ function SubscriberProfile (){
         )}
       </div>
       <div>
-        <label>Address:</label>
+        <label>Адрес:</label>
         {editMode ? (
           <input type="text" name="address" value={address} onChange={handleInputChange} />
         ) : (
@@ -176,7 +173,7 @@ function SubscriberProfile (){
         )}
       </div>
       <div>
-        <label>Installation Date:</label>
+        <label>Дата установки:</label>
         {editMode ? (
           <input type="date" name="installationDate" value={installationDate} onChange={handleInputChange} />
         ) : (
@@ -184,12 +181,12 @@ function SubscriberProfile (){
         )}
       </div>
       <div>
-        <label>Login:</label>
+        <label>Логин:</label>
         <span>{login}</span>
       </div>
       <div>
       {editMode ? (<span>
-        <label>Password:</label>
+        <label>Пароль:</label>
             <input type="password" name="password" value={password} onChange={handleInputChange} />
           </span>
         ) : (
@@ -197,7 +194,7 @@ function SubscriberProfile (){
         )}
       </div>
       <div>
-        <label>Phone Numbers:</label>
+        {/* <label>Phone Numbers:</label> */}
         {
         // editMode ? (
           // <input type="text" name="phoneNumberIds" value={phoneNumberIds} onChange={handleInputChange} />
@@ -223,11 +220,11 @@ function SubscriberProfile (){
       //   ))}
       // </select>
 // {}        ) : (
-          <span>{<ul>
-            {phoneNumbers && phoneNumbers.map((item, idx) => (
-              <li key={idx}>{item.phone}</li>
-            ))}
-          </ul>}</span>
+          // <span>{<ul>
+          //   {selectedNumbers && selectedNumbers.map((item, idx) => (
+          //     <li key={idx}>{item.label}</li>
+          //   ))}
+          // </ul>}</span>
         //  )
       }   
       </div>
@@ -237,14 +234,14 @@ function SubscriberProfile (){
           <Select options={allPhones} value={selectedNumbers} isMulti onChange={handleNumberChange}></Select>
         ):(
           <span>{<ul>
-            {phoneNumbers && phoneNumbers.map((item, idx) => (
-              <li key={idx}>{item.phone}</li>
+            {selectedNumbers && selectedNumbers.map((item, idx) => (
+              <li key={idx}>{item.label}</li>
             ))}
           </ul>}</span>
         )}
       </div>
       <div>
-        <label>Role:</label>
+        <label>Роль:</label>
         {editMode ? (
             <select
             name="role"

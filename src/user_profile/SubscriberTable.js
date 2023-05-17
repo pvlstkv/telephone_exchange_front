@@ -64,7 +64,7 @@ function SubscriberTable() {
           ))}
         </tbody>
       </table>
-      <Link to='/telephone-numbers/creating'> Создать новый номер</Link>
+      <Link to='/telephone-numbers/creating'> Создать нового подписчика</Link>
     </div>
   );
 }

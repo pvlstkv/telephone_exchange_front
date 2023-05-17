@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TelephoneNumber from './TelephoneNumber';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function TelephoneNumberTable() {
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [highlightedRow, setHighlightedRow] = useState([]);
+  const navigate = useNavigate()
   let jwt = localStorage.getItem('token')
   let axiosConfig = {
     headers:{
@@ -32,9 +34,15 @@ function TelephoneNumberTable() {
     setHighlightedRow(null);
   };
 
+  const handleGoHome = ()=>{
+    navigate('/')
+  }
+
   return (
     <div>
       <h1>"Таблица номера телефонов"</h1>
+            <button onClick={handleGoHome}>Главная страница</button>
+
       <p>{`${phoneNumbers.length} найдено записей`}</p>
       <table>
         <thead>

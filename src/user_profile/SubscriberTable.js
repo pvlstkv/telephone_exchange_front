@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Subscriber from './Subscriber';
+import { useNavigate } from 'react-router-dom';
 
 function SubscriberTable() {
   const [subscribers, setSubscribers] = useState([]);
   const [highlightedRow, setHighlightedRow] = useState([]);
+  const navigate = useNavigate()
+
   let jwt = localStorage.getItem('token')
   let axiosConfig = {
     headers:{
@@ -32,9 +35,14 @@ function SubscriberTable() {
     setHighlightedRow(null);
   };
 
+  const handleGoHome = ()=>{
+    navigate('/')
+  }
+
   return (
     <div>
       <h1>"Таблица подписчиков"</h1>
+      <button onClick={handleGoHome}>Главная страница</button>
       <p>{`${subscribers.length} найдено записей`}</p>
       <table>
         <thead>

@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Select from 'react-select'
+import { useNavigate } from 'react-router-dom';
 
 function TelephoneNumberCreate() {
     const [subscriberOptions, setSubscriberOptions] = useState([]);
@@ -48,6 +49,7 @@ function TelephoneNumberCreate() {
       setSelectedExchange(selectedOption);
     };
   
+    const navigate = useNavigate()
     const handleSubmit = (event) => {
       event.preventDefault();
       const data = {
@@ -62,7 +64,9 @@ function TelephoneNumberCreate() {
           setSelectedExchange(null)
           setSelectedSubscriber(null)
           setPhone('')
-
+          setTimeout(()=>{
+            navigate('/telephone-numbers')
+          },2000)
         })
     };
   

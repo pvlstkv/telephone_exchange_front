@@ -1,7 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const Subscriber  = ({index, subscriber})  =>{
+    let jwt = localStorage.getItem('token')
+    let axiosConfig = {
+      headers:{
+          Authorization: "Bearer " + jwt
+      }
+    }  
+    let id = subscriber.id;
+
+    const handleDelete =  (event) =>{
+        axios.delete(`http://localhost:8080/subscribers/${id}`, axiosConfig)
+        window.location.reload()
+      }
 
     return(
         <>
@@ -20,7 +33,7 @@ const Subscriber  = ({index, subscriber})  =>{
             Редактировать
             </Link>
         </td>
-
+        <td> <button onClick={handleDelete}>Удалить</button></td>   
         </>
     )
 }

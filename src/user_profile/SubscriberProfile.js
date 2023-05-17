@@ -3,6 +3,7 @@ import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import Select from 'react-select'
+import { useNavigate } from 'react-router-dom';
 
 function SubscriberProfile (){
   const [user, setUser] = useState({});
@@ -107,6 +108,7 @@ function SubscriberProfile (){
     setSelectedNumbers(oldSelectedNumbers)
   }
 
+  const navigate = useNavigate()
   const handleSave = async (event) => {
         event.preventDefault();
         console.log('user is', user)
@@ -121,8 +123,12 @@ function SubscriberProfile (){
           axios.post('http://localhost:8080/subscribers', user, axiosConfig)
           .then(response=>{
             console.log(response)
-            setUser(null)
+            setUser(response.data)
             setMessage('подписчик успешно создан')
+            setTimeout(()=>{
+              // window.location.href='/subscribers'
+              navigate('/subscribers')
+            }, 2000)
           })
         }
  };

@@ -13,6 +13,8 @@ import TelephoneNumberEdit from './TelephoneNumber/TelephoneNumberEdit';
 import TelephoneNumberCreate from './TelephoneNumber/TelephoneNumberCreate';
 import SubscriberTable from './user_profile/SubscriberTable';
 import TelephoneExchangeTable from './TelephoneExchange/TelephoneExchangeTable';
+import CityCreate from './city/CityCreate';
+import DistrictCreate from './district/DistrictCreate';
 
 function App() {
   // const navigate = useNavigate();
@@ -39,8 +41,12 @@ function App() {
         <Route exact path='/' element={<MainPage/>}></Route>
         <Route exact path='/contact' element={<ContactPage></ContactPage>} ></Route>
         <Route exact path='/profile' element={<SubscriberProfile></SubscriberProfile>}></Route>
+        
         <Route exact path='/cities' element={<CityTable></CityTable>}></Route>
+        <Route exact path='/cities/creating' element={<CityCreate/>}/>
+       
         <Route exact path='/districts' element={<DistrictTable></DistrictTable>}></Route>
+        <Route exact path='/districts/creating' element={<DistrictCreate />}/>
 
         <Route exact path='/telephone-numbers' element={<TelephoneNumberTable></TelephoneNumberTable>}></Route>
         <Route exact path='/telephone-numbers/editing/:id' element={<TelephoneNumberEdit></TelephoneNumberEdit>}></Route>

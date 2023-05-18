@@ -50,6 +50,7 @@ function TelephoneNumberCreate() {
     };
   
     const navigate = useNavigate()
+    
     const handleSubmit = (event) => {
       event.preventDefault();
       const data = {
@@ -69,12 +70,16 @@ function TelephoneNumberCreate() {
           },2000)
         })
     };
+
+    const handleInput = (event) =>{
+      setPhone(event.target.value)
+    }
   
     return (
       <form onSubmit={handleSubmit}>
         <label>
           Phone:
-          <input type="text" value={phone} onChange={(event) => setPhone(event.target.value)} />
+          <input type="text" value={phone} onChange={handleInput} />
         </label>
         <br />
         {/* <label>

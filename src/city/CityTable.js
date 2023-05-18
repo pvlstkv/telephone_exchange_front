@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import City from './City';
+import { Link } from 'react-router-dom';
 
 function CityTable() {
   const [cities, setCities] = useState([]);
@@ -89,20 +90,15 @@ function CityTable() {
               onMouseLeave={handleRowMouseLeave}
               style={{ backgroundColor: highlightedRow === ind ? 'yellow' : ind % 2 === 0 ? 'white' : 'lightgray' }}
             >
-              <td>{ind}</td>
-              <td>{city.name}</td>
-             
-              <td>{city.districts.length > 0 ? city.districts.map(district => district.name).join(', '): "-"}</td>
-
-               
+               {<City index={ind} city={city}></City>}
             </tr>
           ))}
         </tbody>
       </table>
-      {/* <div>
-        <button disabled={currentPage === 1} onClick={() => handlePageChange(currentPage - 1)}>Previous</button>
-        <button disabled={cities.length < pageSize} onClick={() => handlePageChange(currentPage + 1)}>Next</button>
-      </div> */}
+      <Link 
+          to='/cities/creating'
+      > Создать новый город</Link>
+      
     </div>
   );
 }

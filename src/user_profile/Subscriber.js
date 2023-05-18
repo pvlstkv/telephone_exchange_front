@@ -14,7 +14,7 @@ const Subscriber  = ({index, subscriber})  =>{
     const handleDelete =  (event) =>{
         axios.delete(`http://localhost:8080/subscribers/${id}`, axiosConfig)
         window.location.reload()
-      }
+    }
 
     return(
         <>

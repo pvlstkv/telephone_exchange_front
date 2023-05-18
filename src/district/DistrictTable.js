@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import District from './District';
+import { Link } from 'react-router-dom';
 
 
 function DistrictTable() {
@@ -53,16 +55,15 @@ function DistrictTable() {
               onMouseLeave={handleRowMouseLeave}
               style={{ backgroundColor: highlightedRow === ind ? 'yellow' : ind % 2 === 0 ? 'white' : 'lightgray' }}
             >
-              <td>{ind}</td>
-              <td>{district.name}</td>
-              <td>{district.city.name}</td>
-              <td>{district.exchanges.length > 0 ? district.exchanges.map(exchange => exchange.number).join(', '): "-"}</td>
-              <td>{district.exchanges.length > 0 ? district.exchanges.map(exchange => exchange.firstTwoDigits).join(', ') : "-"}</td>
-               
+              <District ind={ind} district={district}></District>
             </tr>
           ))}
         </tbody>
       </table>
+
+      <Link
+        to='/districts/creating'
+      > Создать новый район</Link>
     </div>
   );
 }

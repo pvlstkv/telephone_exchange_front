@@ -60,7 +60,7 @@ function TelephoneExchangeTable() {
           ))}
         </tbody>
       </table>
-      {/* <Link to='/telephone-exchanges/creating'> Создать новую станцию</Link> */}
+      <Link to='/telephone-exchanges/creating'> Создать новую станцию</Link>
     </div>
   );
 }

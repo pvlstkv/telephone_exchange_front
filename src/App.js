@@ -15,6 +15,7 @@ import SubscriberTable from './user_profile/SubscriberTable';
 import TelephoneExchangeTable from './TelephoneExchange/TelephoneExchangeTable';
 import CityCreate from './city/CityCreate';
 import DistrictCreate from './district/DistrictCreate';
+import TelephoneExchangeCreate from './TelephoneExchange/TelephoneExchangeCreate';
 
 function App() {
   // const navigate = useNavigate();
@@ -57,6 +58,7 @@ function App() {
         <Route exact path='/subscribers/creating' element={<SubscriberProfile/>}/>
 
         <Route exact path='/telephone-exchanges' element={<TelephoneExchangeTable/>}/>
+        <Route exact path='/telephone-exchanges/creating' element={<TelephoneExchangeCreate/>}/>
         {/* {navigate('/')} */}
       </Routes>
     </Router>
